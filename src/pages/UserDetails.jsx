@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Table from '../Components/Table';
 import { Users } from '../data/data'
 
 const UserDetails = () => {
@@ -7,24 +8,19 @@ const UserDetails = () => {
     const handleSearch = (e) => {
         setQuery(e.target.value);
     }
+
+    // filter func
+    const searchFilter = (data) => {
+        return data.filter(user=>user.first_name.toLowerCase().includes(query)|| 
+        user.last_name.toLowerCase().includes(query) ||
+        user.email.toLowerCase().includes(query)
+        )
+    }
     return (
         <>
             <div>
                 <input type="text" placeholder="search here.." onChange={handleSearch} />
-                <ul>
-
-                    {
-                        Users.filter((user) => user.first_name.toLowerCase().includes(query)).map(data => {
-                            return (
-                                <div key={data.id}>
-                                    <li>{data.first_name}</li>
-                                    {/* <li>{data.last_name}</li> */}
-                                </div>
-                            )
-                        })
-
-                    }
-                </ul>
+                <Table data={searchFilter(Users)} />
 
             </div>
 
